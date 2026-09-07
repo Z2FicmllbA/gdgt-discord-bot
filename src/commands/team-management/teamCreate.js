@@ -2,6 +2,7 @@ import { SlashCommandBuilder, MessageFlags } from "discord.js";
 
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { ProfanityCheck } from "../../utility/profanityCheck.js";
+import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
 import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
 import { TeamModel } from "../../models/teamModel.js";
 
@@ -91,7 +92,16 @@ export async function execute(interaction) {
 
     const teamName = interaction.options.getString('name');
     const teamTag = interaction.options.getString('tag').toUpperCase();
-
+    if (!AlphanumericCheck(teamTag)) {
+        await interaction.followUp({
+            embeds: [FollowUpEmbed(
+                'Error',
+                'The team tag can only contain alphanumeric values.',
+                EmbedColors.ERROR,
+            )],
+        });
+        return;
+    }
     if (ProfanityCheck(teamName) || ProfanityCheck(teamTag)) {
         await interaction.followUp({
             embeds: [FollowUpEmbed(

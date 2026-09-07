@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
+import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
 import { EventModel } from "../../models/eventModel.js";
 import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
 import { CreateParticipantRole } from "../../utility/participantRoleManager.js";
@@ -39,8 +40,7 @@ export async function execute(interaction) {
     }
 
     const eventId = interaction.options.getString('tag').toUpperCase();
-    const tagRegex = /^[A-Z0-9]+$/;
-    if (!tagRegex.test(eventId)) {
+    if (!AlphanumericCheck(eventId)) {
         await interaction.followUp({
             embeds: [FollowUpEmbed(
                 'Error',
