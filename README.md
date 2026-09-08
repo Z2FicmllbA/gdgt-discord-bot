@@ -40,4 +40,5 @@ WIP; fields with the question mark (?) at the end are not required
 
 
 ### Team management
-* `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. WIP
+* `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. Can only be done in the registrations phase.
+* `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.

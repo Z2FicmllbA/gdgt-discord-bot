@@ -113,10 +113,10 @@ export async function execute(interaction) {
         return;
     }
 
-    const nameCheck = await TeamModel.findOne(
+    const availableNameCheck = await TeamModel.findOne(
         { event: event._id, name: teamName }
     );
-    if (nameCheck) {
+    if (availableNameCheck) {
         await interaction.followUp({
             embeds: [FollowUpEmbed(
                 'Error',
@@ -126,10 +126,10 @@ export async function execute(interaction) {
         });
         return;
     }
-    const tagCheck = await TeamModel.findOne(
+    const availableTagCheck = await TeamModel.findOne(
         { event: event._id, tag: teamTag }
     );
-    if (tagCheck) {
+    if (availableTagCheck) {
         await interaction.followUp({
             embeds: [FollowUpEmbed(
                 'Error',
