@@ -3,7 +3,7 @@ import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { EventModel } from "../../models/eventModel.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, SuccessEmbed } from "../../utility/followUpEmbed.js";
 
 export const data = new SlashCommandBuilder()
     .setName('event-team-size')
@@ -27,11 +27,7 @@ export async function execute(interaction) {
 
     if (!WhitelistCheck(interaction.user.id)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'You are not whitelisted for this action.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('You are not whitelisted for this action.')]
         });
         return;
     }
@@ -39,21 +35,13 @@ export async function execute(interaction) {
     const event = await LoadActiveEvent(interaction.guild.id);
     if (!event) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `No active event set for the guild **${interaction.guild.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`No active event set for the guild **${interaction.guild.name}**.`)]
         });
         return;
     }
     if (event.archiveState) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `The event **${event.name}** is archived.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`The event **${event.name}** is archived.`)]
         });
         return;
     }
@@ -62,11 +50,7 @@ export async function execute(interaction) {
     const tsMax = interaction.options.getInteger('max');
     if (tsMin > tsMax) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'The minimal value cannot be larger than the maximum value.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('The minimal value cannot be larger than the maximum value.')]
         });
         return;
     }
@@ -76,10 +60,6 @@ export async function execute(interaction) {
 
     await event.save();
     await interaction.followUp({
-        embeds: [FollowUpEmbed(
-            'Success',
-            `Updated team size for **${event.name}**: ${tsMin}-${tsMax}.`,
-            EmbedColors.SUCCESS,
-        )],
+        embeds: [SuccessEmbed(`Updated team size for **${event.name}**: ${tsMin}-${tsMax}.`)],
     });
 }

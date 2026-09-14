@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, SuccessEmbed } from "../../utility/followUpEmbed.js";
 import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
 import { TeamModel } from "../../models/teamModel.js";
 
@@ -29,31 +29,19 @@ export async function execute(interaction) {
     const event = await LoadActiveEvent(interaction.guild.id);
     if (!event) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `No active event set for the guild **${interaction.guild.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`No active event set for the guild **${interaction.guild.name}**.`)]
         });
         return;
     }
     if (event.archiveState) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `The event **${event.name}** is archived.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`The event **${event.name}** is archived.`)]
         });
         return;
     }
     if (!event.registrationsState) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `The registrations phase for the event **${event.name}** is not active.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`The registrations phase for the event **${event.name}** is not active.`)]
         });
         return;
     }
@@ -64,11 +52,7 @@ export async function execute(interaction) {
     );
     if (memberCheck) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `You cannot disband the team **${memberCheck.name}** as your are not the captain.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`You cannot disband the team **${memberCheck.name}** as your are not the captain.`)]
         });
         return;
     }
@@ -78,11 +62,7 @@ export async function execute(interaction) {
     );
     if (!team) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `You do not have any registered team for the event **${event.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`You do not have any registered team for the event **${event.name}**.`)]
         });
         return;
     }
@@ -91,32 +71,20 @@ export async function execute(interaction) {
     const confirmTeamTag = interaction.options.getString('confirm-tag').toUpperCase();
     if (!AlphanumericCheck(confirmTeamTag)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'The team tag can only contain alphanumeric values.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('The team tag can only contain alphanumeric values.')]
         });
         return;
     }
 
     if (confirmTeamName != team.name) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'Could not disband team: **name** mismatch. Please check for any typos.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('Could not disband team: **name** mismatch. Please check for any typos.')]
         });
         return;
     }
     if (confirmTeamTag != team.tag) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'Could not disband team: **tag** mismatch. Please check for any typos.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('Could not disband team: **tag** mismatch. Please check for any typos.')]
         });
         return;
     }
@@ -124,10 +92,6 @@ export async function execute(interaction) {
     await team.deleteOne();
     // to do: role deletion
     await interaction.followUp({
-        embeds: [FollowUpEmbed(
-            'Success',
-            `Successfully deleted the team **${team.name}** from the event **${event.name}**.`,
-            EmbedColors.SUCCESS,
-        )],
+        embeds: [SuccessEmbed(`Successfully deleted the team **${team.name}** from the event **${event.name}**.`)]
     });
 }

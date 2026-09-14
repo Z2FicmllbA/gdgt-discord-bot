@@ -3,7 +3,7 @@ import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { ProfanityCheck } from "../../utility/profanityCheck.js";
 import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, SuccessEmbed } from "../../utility/followUpEmbed.js";
 import { TeamModel } from "../../models/teamModel.js";
 
 export const data = new SlashCommandBuilder()
@@ -30,31 +30,19 @@ export async function execute(interaction) {
     const event = await LoadActiveEvent(interaction.guild.id);
     if (!event) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `No active event set for the guild **${interaction.guild.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`No active event set for the guild **${interaction.guild.name}**.`)]
         });
         return;
     }
     if (event.archiveState) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `The event **${event.name}** is archived.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`The event **${event.name}** is archived.`)]
         });
         return;
     }
     if (!event.registrationsState) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `The registrations phase for the event **${event.name}** is not active.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`The registrations phase for the event **${event.name}** is not active.`)]
         });
         return;
     }
@@ -66,11 +54,7 @@ export async function execute(interaction) {
     );
     if (captainCheck) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `You cannot create another team. Your current team: **${captainCheck.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`You cannot create another team. Your current team: **${captainCheck.name}**.`)]
         });
         return;
     }
@@ -81,11 +65,7 @@ export async function execute(interaction) {
     );
     if (memberCheck) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `You are a part of team **${memberCheck.name}**. You need to leave to create your own team.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`You are a part of team **${memberCheck.name}**. You need to leave to create your own team.`)]
         });
         return;
     }
@@ -94,21 +74,13 @@ export async function execute(interaction) {
     const teamTag = interaction.options.getString('tag').toUpperCase();
     if (!AlphanumericCheck(teamTag)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'The team tag can only contain alphanumeric values.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('The team tag can only contain alphanumeric values.')]
         });
         return;
     }
     if (ProfanityCheck(teamName) || ProfanityCheck(teamTag)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'Profanity detected. If you think this is a mistake, contact the staff team.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('Profanity detected. If you think this is a mistake, contact the staff team.')]
         });
         return;
     }
@@ -118,11 +90,7 @@ export async function execute(interaction) {
     );
     if (availableNameCheck) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `A team already has the **${teamName}** name for the event **${event.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`A team already has the **${teamName}** name for the event **${event.name}**.`)]
         });
         return;
     }
@@ -131,11 +99,7 @@ export async function execute(interaction) {
     );
     if (availableTagCheck) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `A team already has the ${teamTag} tag for the event **${event.name}**.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`A team already has the ${teamTag} tag for the event **${event.name}**.`)]
         });
         return;
     }
@@ -150,10 +114,6 @@ export async function execute(interaction) {
     await team.save();
     // TO DO: make their role here
     await interaction.followUp({
-        embeds: [FollowUpEmbed(
-            'Success',
-            `Successfully created the team **${teamName}** with the tag ${teamTag}.`,
-            EmbedColors.SUCCESS,
-        )],
+        embeds: [SuccessEmbed(`Successfully created the team **${teamName}** with the tag ${teamTag}.`)]
     });
 }

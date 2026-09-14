@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js"
 
 import { EventModel } from "../../models/eventModel.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
 
 export const data = new SlashCommandBuilder()
     .setName('event-info')
@@ -36,13 +36,7 @@ export async function execute(interaction) {
             errorMessage = `No active event set for the guild **${interaction.guild.name}**.`;
         }
 
-        await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                errorMessage,
-                EmbedColors.ERROR,
-            )],
-        });
+        await interaction.followUp({ embeds: [ErrorEmbed(errorMessage)] });
         return;
     }
 

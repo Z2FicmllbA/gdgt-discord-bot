@@ -3,7 +3,7 @@ import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
 import { EventModel } from "../../models/eventModel.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, SuccessEmbed } from "../../utility/followUpEmbed.js";
 import { CreateParticipantRole } from "../../utility/participantRoleManager.js";
 
 export const data = new SlashCommandBuilder()
@@ -30,11 +30,7 @@ export async function execute(interaction) {
 
     if (!WhitelistCheck(interaction.user.id)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'You are not whitelisted for this action.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('You are not whitelisted for this action.')]
         });
         return;
     }
@@ -42,21 +38,13 @@ export async function execute(interaction) {
     const eventId = interaction.options.getString('tag').toUpperCase();
     if (!AlphanumericCheck(eventId)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'The event tag can only contain alphanumeric values.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('The event tag can only contain alphanumeric values.')]
         });
         return;
     }
     if (await EventModel.exists({ _id: eventId })) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `An event already has the ${eventId} tag.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`An event already has the ${eventId} tag.`)]
         });
         return;
     }
@@ -78,10 +66,8 @@ export async function execute(interaction) {
 
     await event.save();
     await interaction.followUp({
-        embeds: [FollowUpEmbed(
-            'Success',
-            `Successfully created the event **${eventName}** with the tag ${eventId}.\nParticipant role: <@&${eventRole.id}>`,
-            EmbedColors.SUCCESS,
-        )],
+        embeds: [SuccessEmbed(
+            `Successfully created the event **${eventName}** with the tag ${eventId}.\n` +
+            `Participant role: <@&${eventRole.id}>`)]
     });
 }

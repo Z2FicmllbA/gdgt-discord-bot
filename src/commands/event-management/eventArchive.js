@@ -2,7 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { EventModel } from "../../models/eventModel.js";
-import { FollowUpEmbed, EmbedColors } from "../../utility/followUpEmbed.js";
+import { ErrorEmbed, SuccessEmbed } from "../../utility/followUpEmbed.js";
 
 export const data = new SlashCommandBuilder()
     .setName('event-archive')
@@ -24,11 +24,7 @@ export async function execute(interaction) {
 
     if (!WhitelistCheck(interaction.user.id)) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                'You are not whitelisted for this action.',
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed('You are not whitelisted for this action.')]
         });
         return;
     }
@@ -37,11 +33,7 @@ export async function execute(interaction) {
     const eventQuery = await EventModel.findById(eventId);
     if (!eventQuery) {
         await interaction.followUp({
-            embeds: [FollowUpEmbed(
-                'Error',
-                `No event found with the tag ${eventId}.`,
-                EmbedColors.ERROR,
-            )],
+            embeds: [ErrorEmbed(`No event found with the tag ${eventId}.`)]
         });
         return;
     }
@@ -52,10 +44,6 @@ export async function execute(interaction) {
     await eventQuery.save();
     const archiveString = archiveState ? 'archived' : 'opened';
     await interaction.followUp({
-        embeds: [FollowUpEmbed(
-            'Success',
-            `The event **${eventQuery.name}**  has been **${archiveString}.**`,
-            EmbedColors.SUCCESS,
-        )],
+        embeds: [SuccessEmbed(`The event **${eventQuery.name}**  has been **${archiveString}**.`)]
     });
 }

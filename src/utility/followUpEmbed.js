@@ -1,5 +1,12 @@
 import { EmbedBuilder } from "discord.js"
 
+export const EmbedColors = {
+    SUCCESS: "#4CAF50",
+    ERROR: "#F44336",
+    INFO: "#a4accf",
+    INACTIVE: "#4c4f5f"
+}
+
 export function FollowUpEmbed(header, content, color) {
     const embed = new EmbedBuilder()
         .setTitle(header)
@@ -8,9 +15,10 @@ export function FollowUpEmbed(header, content, color) {
     return embed;
 }
 
-export const EmbedColors = {
-    SUCCESS: "#4CAF50",
-    ERROR: "#F44336",
-    INFO: "#a4accf",
-    INACTIVE: "#4c4f5f"
+export function SuccessEmbed(content) {
+    return FollowUpEmbed('Success', content, EmbedColors.SUCCESS);
+}
+
+export function ErrorEmbed(content) {
+    return FollowUpEmbed('Error', content, EmbedColors.ERROR);
 }
