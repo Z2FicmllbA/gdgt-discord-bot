@@ -1,14 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const playerSchema = new Schema({
-    _id: {
-        type: String,
-        required: true,
-    },
-    badges: [{
-        badge: String,
-    }],
-    // TO DO: add levels
+	_id: {
+		type: String,
+		required: true,
+	},
+	badges: [{
+		badge: String,
+	}],
 });
 
 export const PlayerModel = model('Player', playerSchema);

@@ -40,9 +40,11 @@ some commands contain a dialog box to confirm the action // TO DO: test the coll
 
 
 ### Team management
-// TO DO: create/delete roles when using these 2 below, consolidate all roles when an event gets archived/unarchived & active/inactive 
+
 * `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. Can only be done in the registrations phase.
+
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
+
 
 ### Utility
 // TO DO: add a cooldown for non-ephemeral user commands

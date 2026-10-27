@@ -1,6 +1,6 @@
 {
   "name": "gdgt-discord-bot",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "",
   "homepage": "https://github.com/Z2FicmllbA/gdgt-discord-bot#readme",
   "bugs": {
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.9.1"
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
   }
 }
