@@ -1,16 +1,16 @@
 {
   "name": "gdgt-discord-bot",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "",
-  "homepage": "https://github.com/gabriel-caraman/gdgt-discord-bot#readme",
+  "homepage": "https://github.com/Z2FicmllbA/gdgt-discord-bot#readme",
   "bugs": {
-    "url": "https://github.com/gabriel-caraman/gdgt-discord-bot/issues"
+    "url": "https://github.com/Z2FicmllbA/gdgt-discord-bot/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gabriel-caraman/gdgt-discord-bot.git"
+    "url": "git+https://github.com/Z2FicmllbA/gdgt-discord-bot.git"
   },
-  "author": "Gabriel Caraman",
+  "author": "Z2FicmllbA",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

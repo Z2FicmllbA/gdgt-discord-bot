@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { EventModel } from "../../models/eventModel.js";
@@ -55,11 +56,24 @@ export async function execute(interaction) {
         return;
     }
 
-    event.teamSizeMin = tsMin;
-    event.teamSizeMax = tsMax;
+    await ConfirmationDialog({
+        interaction: interaction,
+        dialogType: DialogType.Generic,
+        header: 'Confirmation',
+        content: `Change the team size of the event **${event.name}**?`,
+        ttl: 60_000,
+        callback: eventTeamSize,
+    });
+}
+
+async function eventTeamSize(interaction) {
+    const event = await LoadActiveEvent(interaction.guild.id);
+
+    event.teamSizeMin = interaction.options.getInteger('min');
+    event.teamSizeMax = interaction.options.getInteger('max');
 
     await event.save();
-    await interaction.followUp({
-        embeds: [SuccessEmbed(`Updated team size for **${event.name}**: ${tsMin}-${tsMax}.`)],
-    });
+    return SuccessEmbed(`Updated team size for **${event.name}**: ` +
+        `${event.teamSizeMin}-${event.teamSizeMax}.`
+    );
 }

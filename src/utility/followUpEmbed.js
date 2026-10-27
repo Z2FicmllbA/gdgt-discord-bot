@@ -22,3 +22,10 @@ export function SuccessEmbed(content) {
 export function ErrorEmbed(content) {
     return FollowUpEmbed('Error', content, EmbedColors.ERROR);
 }
+
+export function TitleEmbed(header, color) {
+    const embed = new EmbedBuilder()
+        .setTitle(header)
+        .setColor(color);
+    return embed;
+}

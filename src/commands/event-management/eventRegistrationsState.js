@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { EventModel } from "../../models/eventModel.js";
@@ -40,14 +41,24 @@ export async function execute(interaction) {
         return;
     }
 
+    await ConfirmationDialog({
+        interaction: interaction,
+        dialogType: DialogType.Generic,
+        header: 'Confirmation',
+        content: `Change the registrations state for the event **${event.name}**?`,
+        ttl: 60_000,
+        callback: eventRegistrationsState,
+    });
+}
+
+async function eventRegistrationsState(interaction) {
+    const event = await LoadActiveEvent(interaction.guild.id);
     const regState = interaction.options.getBoolean('state');
     event.registrationsState = regState;
 
     await event.save();
     const stateString = regState ? 'open' : 'closed';
-    await interaction.followUp({
-        embeds: [SuccessEmbed(
-            `Registrations are now **${stateString}** for the event **${event.name}**.`
-        )]
-    });
+    return SuccessEmbed(
+        `Registrations are now **${stateString}** for the event **${event.name}**.`
+    );
 }

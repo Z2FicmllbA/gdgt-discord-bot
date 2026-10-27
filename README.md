@@ -1,7 +1,7 @@
 # gdgt-discord-bot
 WIP; Using Node.js v24.18.0
 
-Dev portal setup: in the OAuth2 tab under OAuth2 URL Generator enable: `applications.commands` and `bot`. For the bot permissions just tick off `Administrator`.
+Dev portal setup: in the OAuth2 tab under OAuth2 URL Generator enable: `applications.commands` and `bot`. For the bot permissions just tick off `Administrator`. // TO DO: remove admin permissions so the bot can be confined to separate channels (and not be used to spam in general)
 
 Discord server setup: move the bot role all the way up, and don't forget to set the Server Member role ID in the .env file if you haven't already.
 
@@ -14,7 +14,7 @@ Discord server setup: move the bot role all the way up, and don't forget to set 
 ## Commands
 WIP; fields with the question mark (?) at the end are not required
 
-//TO DO: add a confirmation dialog
+some commands contain a dialog box to confirm the action // TO DO: test the collector filter
 
 ### Event management
 * `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers.
@@ -45,4 +45,5 @@ WIP; fields with the question mark (?) at the end are not required
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
 
 ### Utility
+// TO DO: add a cooldown for non-ephemeral user commands
 * `/roll [max-value?]` - Roll a number between 0-100 (or to whatever number instead).

@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { LoadActiveEvent } from "../../utility/loadActiveEvent.js";
 import { EventModel } from "../../models/eventModel.js";
@@ -48,39 +49,57 @@ export async function execute(interaction) {
     const queryName = interaction.options.getString('name');
     const queryOrder = interaction.options.getInteger('order');
 
+    const dialog = {
+        interaction: interaction,
+        dialogType: DialogType.Generic,
+        header: 'Confirmation',
+        content: `Update the stage ${queryName} for the event **${event.name}**?`,
+        ttl: 60_000,
+        callback: eventStage,
+    };
+
+    if (queryOrder === 0) {
+        dialog.dialogType = DialogType.Dangerous;
+        dialog.header = 'WARNING';
+        dialog.content = `Delete the stage ${queryName} for the event **${event.name}**?`;
+    }
+
+    await ConfirmationDialog(dialog);
+}
+
+async function eventStage(interaction) {
+    const event = await LoadActiveEvent(interaction.guild.id);
+
+    const queryName = interaction.options.getString('name');
+    const queryOrder = interaction.options.getInteger('order');
+
     // Delete the stage
     if (queryOrder === 0) {
         await event.stages.pull({ stageName: queryName });
+        
         await event.save();
-        await interaction.followUp({
-            embeds: [SuccessEmbed(
-                `Deleted the stage **${queryName}** from the event **${event.name}**.`
-            )]
-        });
-        return;
+        return SuccessEmbed(
+            `Deleted the stage **${queryName}** from the event **${event.name}**.`
+        );
     }
 
     // Update the stage (name/order)
     for (let i = 0; i < event.stages.length; i++) {
         if (event.stages[i].stageOrder == queryOrder) {
-            await interaction.followUp({
-                embeds: [SuccessEmbed(
-                    `The stage ${event.stages[i].stageName} already occupies this order number.`
-                )]
-            });
-            return;
+            return SuccessEmbed(
+                `The stage **${event.stages[i].stageName}** already occupies this order number.`
+            );
         }
     }
     for (let i = 0; i < event.stages.length; i++) {
         if (event.stages[i].stageName == queryName) {
             event.stages[i].stageOrder = queryOrder;
+            
             await event.save();
-            await interaction.followUp({
-                embeds: [SuccessEmbed(
-                    `Updated the stage ${event.stages[i].stageName} (order: ${event.stages[i].stageOrder}) from the event ${event.name}.`
-                )]
-            });
-            return;
+            return SuccessEmbed(
+                `Updated the stage **${event.stages[i].stageName}** (order: ${event.stages[i].stageOrder}) ` + 
+                `from the event **${event.name}**.`
+            );
         }
     }
 
@@ -91,7 +110,7 @@ export async function execute(interaction) {
     });
     
     await event.save();
-    await interaction.followUp({
-        embeds: [SuccessEmbed(`Added the stage **${queryName}** to the event **${event.name}**.`)]
-    });
+    return SuccessEmbed(
+        `Added the stage **${queryName}** to the event **${event.name}**.`
+    );
 }

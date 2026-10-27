@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { GuildConfigModel } from "../../models/guildConfigModel.js";
 import { EventModel } from "../../models/eventModel.js";
@@ -40,15 +41,27 @@ export async function execute(interaction) {
         return;
     }
 
+    await ConfirmationDialog({
+        interaction: interaction,
+        dialogType: DialogType.Generic,
+        header: 'Confirmation',
+        content: `Set the event **${event.name}** as the default/active for this guild?`,
+        ttl: 60_000,
+        callback: eventSetActive,
+    });
+}
+
+async function eventSetActive(interaction) {
+    const eventId = interaction.options.getString('tag').toUpperCase();
+    const event = await EventModel.findById(eventId);
+
     await GuildConfigModel.findByIdAndUpdate(
         interaction.guild.id,
         { activeEvent: eventId },
         { upsert: true },
     );
 
-    await interaction.followUp({
-        embeds: [SuccessEmbed(
-            `Set the event **${event.name}** as the default/active event for the guild **${interaction.guild.name}**.`
-        )]
-    });
+    return SuccessEmbed(
+        `Set the event **${event.name}** as the default/active event for the guild **${interaction.guild.name}**.`
+    );
 }

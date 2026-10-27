@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { AlphanumericCheck } from "../../utility/alphanumericCheck.js";
 import { EventModel } from "../../models/eventModel.js";
@@ -50,6 +51,20 @@ export async function execute(interaction) {
     }
 
     const eventName = interaction.options.getString('name');
+    await ConfirmationDialog({
+        interaction: interaction,
+        dialogType: DialogType.Generic,
+        header: 'Confirmation',
+        content: `Create the event **${eventName}**?`,
+        ttl: 60_000,
+        callback: eventCreate,
+    });
+}
+
+async function eventCreate(interaction) {
+    const eventId = interaction.options.getString('tag').toUpperCase();
+
+    const eventName = interaction.options.getString('name');
     const eventDefaultStage = interaction.options.getString('default-stage') ?? 'Qualifiers';
 
     const eventRole = await CreateParticipantRole(interaction, `${eventId} Participant`);
@@ -65,9 +80,8 @@ export async function execute(interaction) {
     });
 
     await event.save();
-    await interaction.followUp({
-        embeds: [SuccessEmbed(
-            `Successfully created the event **${eventName}** with the tag ${eventId}.\n` +
-            `Participant role: <@&${eventRole.id}>`)]
-    });
+    return SuccessEmbed(
+        `Successfully created the event **${eventName}** with the tag ${eventId}.\n` +
+        `Participant role: <@&${eventRole.id}>`
+    );
 }

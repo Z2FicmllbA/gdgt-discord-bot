@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
+import { ConfirmationDialog, DialogType } from "../../handlers/confirmationDialog.js";
 import { WhitelistCheck } from "../../utility/whitelistCheck.js";
 import { EventModel } from "../../models/eventModel.js";
 import { GuildConfigModel } from "../../models/guildConfigModel.js";
@@ -41,6 +42,20 @@ export async function execute(interaction) {
         return;
     }
 
+    await ConfirmationDialog({
+        interaction: interaction,
+        dialogType: DialogType.Dangerous,
+        header: 'WARNING',
+        content: `Delete the event **${event.name}**?`,
+        ttl: 60_000,
+        callback: eventDelete,
+    });
+}
+
+async function eventDelete(interaction) {
+    const eventId = interaction.options.getString('tag').toUpperCase();
+    const event = await EventModel.findById(eventId);
+
     await event.deleteOne();
     await DeleteParticipantRole(interaction, event.roleId);
     await GuildConfigModel.findOneAndUpdate(
@@ -48,9 +63,7 @@ export async function execute(interaction) {
         { activeEvent: null },
     );
 
-    await interaction.followUp({
-        embeds: [SuccessEmbed(
-            `Successfully deleted the event **${event.name}** with the tag ${eventId}.`
-        )]
-    });
+    return SuccessEmbed(
+        `Successfully deleted the event **${event.name}** with the tag ${eventId}.`
+    );
 }

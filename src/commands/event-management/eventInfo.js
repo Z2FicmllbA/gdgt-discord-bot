@@ -90,7 +90,7 @@ export async function execute(interaction) {
         });
     } else {
         stages.forEach(stage => {
-            stagesString += `- ${stage.stageName} (order: ${stage.stageOrder})\n`;
+            stagesString += `- ${stage.stageName} (${stage.stageOrder})\n`;
         });
     }
 
