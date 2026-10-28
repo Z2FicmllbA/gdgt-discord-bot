@@ -64,7 +64,7 @@ export async function execute(interaction) {
 	);
 	if (memberCheck) {
 		await interaction.followUp({
-			embeds: [ErrorEmbed(`You are a part of team **${memberCheck.name}**. You need to leave to create your own team.`)],
+			embeds: [ErrorEmbed(`You are part of team **${memberCheck.name}**. You need to leave to create your own team.`)],
 		});
 		return;
 	}

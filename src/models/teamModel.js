@@ -8,6 +8,9 @@ const teamSchema = new Schema({
 	members: [{
 		member: String,
 	}],
+	invites: [{
+		userId: String,
+	}],
 });
 
 export const TeamModel = model('Team', teamSchema);

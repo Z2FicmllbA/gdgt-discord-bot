@@ -1,9 +1,9 @@
 # gdgt-discord-bot
 WIP; Using Node.js v24.18.0
 
-Dev portal setup: in the OAuth2 tab under OAuth2 URL Generator enable: `applications.commands` and `bot`. For the bot permissions just tick off `Administrator`. // TO DO: remove admin permissions so the bot can be confined to separate channels (and not be used to spam in general)
+Dev portal setup: in the OAuth2 tab under OAuth2 URL Generator enable: `applications.commands` and `bot`. For the bot permissions just tick off `Administrator`.
 
-Discord server setup: move the bot role all the way up, and don't forget to set the Server Member role ID in the .env file if you haven't already.
+Discord server setup: move the bot role all the way up; under Server Settings/Apps/Integrations manage the bot by making all channels unavailable and add the bot channel(s) as the only one(s) available; and don't forget to set the Server Member role ID in the .env file if you haven't already.
 
 ## Setup (temporary, will add Docker components and change this)
 1. Run `npm install` to get all needed packages
@@ -14,7 +14,7 @@ Discord server setup: move the bot role all the way up, and don't forget to set 
 ## Commands
 WIP; fields with the question mark (?) at the end are not required
 
-some commands contain a dialog box to confirm the action // TO DO: test the collector filter
+some commands contain a dialog box to confirm the action
 
 ### Event management
 * `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers.
@@ -44,6 +44,8 @@ some commands contain a dialog box to confirm the action // TO DO: test the coll
 * `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. Can only be done in the registrations phase.
 
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
+
+* `/team-invite [@user]` - Send/cancel an invite for your team to a free agent.
 
 
 ### Utility

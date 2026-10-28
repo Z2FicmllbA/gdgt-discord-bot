@@ -27,7 +27,7 @@ export const DialogType = {
 
 export async function ConfirmationDialog(data) {
 	let confirmationColor = EmbedColors.INFO;
-	if (data.dialogType == DialogType.Dangerous) {
+	if (data.dialogType === DialogType.Dangerous) {
 		confirmationColor = EmbedColors.ERROR;
 	}
 
@@ -37,14 +37,14 @@ export async function ConfirmationDialog(data) {
 		withResponse: true,
 	});
 
-	const collectorFilter = (i) => i.user.id == data.interaction.user.id;
+	const collectorFilter = (i) => i.user.id === data.interaction.user.id;
 	try {
 		const confirmation = await response.awaitMessageComponent({
 			filter: collectorFilter,
 			time: data.ttl,
 		});
 
-		if (confirmation.customId == 'confirm') {
+		if (confirmation.customId === 'confirm') {
 			const resultEmbed = await data.callback(data.interaction);
 
 			await confirmation.update({
@@ -52,7 +52,7 @@ export async function ConfirmationDialog(data) {
 				components: [],
 			});
 		}
-		else if (confirmation.customId == 'cancel') {
+		else if (confirmation.customId === 'cancel') {
 			await confirmation.update({
 				embeds: [TitleEmbed('This action has been cancelled.', EmbedColors.INACTIVE)],
 				components: [],
@@ -62,7 +62,7 @@ export async function ConfirmationDialog(data) {
 	}
 	catch {
 		await data.interaction.editReply({
-			embeds: [TitleEmbed('Timed out.', EmbedColors.INACTIVE)],
+			embeds: [TitleEmbed('Error // Timed out.', EmbedColors.INACTIVE)],
 			components: [],
 		});
 	}

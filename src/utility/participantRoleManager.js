@@ -18,5 +18,11 @@ export async function CreateParticipantRole(interaction, roleName) {
 }
 
 export async function DeleteParticipantRole(interaction, roleId) {
-	await interaction.guild.roles.delete(roleId);
+	try {
+		await interaction.guild.roles.delete(roleId);
+		return true;
+	}
+	catch {
+		return false;
+	}
 }

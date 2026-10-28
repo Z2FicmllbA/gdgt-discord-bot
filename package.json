@@ -1,6 +1,6 @@
 {
   "name": "gdgt-discord-bot",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "homepage": "https://github.com/Z2FicmllbA/gdgt-discord-bot#readme",
   "bugs": {
@@ -16,7 +16,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "deploy-commands": "node src/deployCommands.js"
+    "deploy-commands": "node src/deployCommands.js",
+	"lint": "npx eslint ."
   },
   "dependencies": {
     "discord.js": "^14.27.0",

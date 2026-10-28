@@ -82,14 +82,14 @@ async function eventStage(interaction) {
 
 	// Update the stage (name/order)
 	for (let i = 0; i < event.stages.length; i++) {
-		if (event.stages[i].stageOrder == queryOrder) {
+		if (event.stages[i].stageOrder === queryOrder) {
 			return SuccessEmbed(
 				`The stage **${event.stages[i].stageName}** already occupies this order number.`,
 			);
 		}
 	}
 	for (let i = 0; i < event.stages.length; i++) {
-		if (event.stages[i].stageName == queryName) {
+		if (event.stages[i].stageName === queryName) {
 			event.stages[i].stageOrder = queryOrder;
 
 			await event.save();
