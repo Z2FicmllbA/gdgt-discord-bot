@@ -8,8 +8,8 @@ export const data = new SlashCommandBuilder()
 	.setName('team-invite')
 	.setDescription('Send/cancel an invite for your team to a free agent.')
 	.addUserOption(option =>
-		option.setName('user')
-			.setDescription('Enter the user like you would tag them (f.e. @user123).')
+		option.setName('member')
+			.setDescription('Enter the member like you would tag them (f.e. @user123).')
 			.setRequired(true));
 
 export async function execute(interaction) {
@@ -56,21 +56,40 @@ export async function execute(interaction) {
 		return;
 	}
 
-	const user = interaction.options.getUser('user');
-	if (user.id === interaction.user.id) {
+	const member = interaction.options.getMember('member');
+	if (member.id === interaction.user.id) {
 		await interaction.followUp({
 			embeds: [ErrorEmbed('You already are in your team.')],
 		});
 		return;
 	}
-	if (user.bot) {
+	if (member.bot) {
 		await interaction.followUp({
 			embeds: [ErrorEmbed('You cannot invite bot users to your team.')],
 		});
 		return;
 	}
-	// check for blacklisted roles
-	// check if user is already in the team
+
+	for (let i = 0; i < event.blacklistedRoles.length; i++) {
+		if (member.roles.cache.has(event.blacklistedRoles[i].roleId)) {
+			await interaction.followUp({
+				embeds: [ErrorEmbed('Could not invite this member to the team because they ' +
+					`have the role <@&${event.blacklistedRoles[i].roleId}>.`,
+				)],
+			});
+			return;
+		}
+	}
+
+	// TO DO: check this when members are implemented
+	for (let i = 0; i < team.members.length; i++) {
+		if (team.members[i].memberId === member.id) {
+			await interaction.followUp({
+				embeds: [ErrorEmbed(`<@${member.id}> is already part of your team.`)],
+			});
+			return;
+		}
+	}
 
 	if (team.invites.length >= event.teamSizeMax) {
 		await interaction.followUp({
@@ -83,18 +102,18 @@ export async function execute(interaction) {
 
 	let alreadyInvitedCheck = false;
 	for (let i = 0; i < team.invites.length; i++) {
-		if (team.invites[i].userId === user.id) {
+		if (team.invites[i].memberId === member.id) {
 			alreadyInvitedCheck = true;
 			break;
 		}
 	}
-	let embedMessage = `Invited <@${user.id}> to the team **${team.name}**.`;
+	let embedMessage = `Invited <@${member.id}> to the team **${team.name}**.`;
 	if (alreadyInvitedCheck) {
-		team.invites.pull({ userId: user.id });
-		embedMessage = `Cancelled the invite to <@${user.id}>.`;
+		team.invites.pull({ memberId: member.id });
+		embedMessage = `Cancelled the invite to <@${member.id}>.`;
 	}
 	else {
-		team.invites.push({ userId: user.id });
+		team.invites.push({ memberId: member.id });
 	}
 
 	await team.save();

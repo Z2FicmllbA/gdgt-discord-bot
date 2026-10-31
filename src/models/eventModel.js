@@ -31,6 +31,9 @@ const eventSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	blacklistedRoles: [{
+		roleId: String,
+	}],
 });
 
 export const EventModel = model('Event', eventSchema);

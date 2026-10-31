@@ -45,7 +45,7 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// to do: test this
+	// to do: check this when members are implemented
 	const memberCheck = await TeamModel.findOne(
 		{ event: event._id, 'members.member': interaction.user.id },
 	);
@@ -105,7 +105,5 @@ async function teamDisband(interaction) {
 	);
 
 	await team.deleteOne();
-	// to do: role deletion
-
 	return SuccessEmbed(`Successfully deleted the team **${team.name}** from the event **${event.name}**.`);
 }

@@ -6,10 +6,10 @@ const teamSchema = new Schema({
 	event: String,
 	captain: String,
 	members: [{
-		member: String,
+		memberId: String,
 	}],
 	invites: [{
-		userId: String,
+		memberId: String,
 	}],
 });
 

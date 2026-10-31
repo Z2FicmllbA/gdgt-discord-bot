@@ -36,18 +36,24 @@ some commands contain a dialog box to confirm the action
     - If the provided order is 0, delete the stage with the provided name
     - All other cases will update the stage with the provided name
 
+* `/event-blacklist-role [@role] [state]` - Mark a role on the server as blacklisted for the active event. User with blacklisted roles will not be able to create/join teams or receive any invites.
+
 * `/event-archive [tag] [state]` - Archive/unarchive an event. Archived events will be locked from any changes both by admins and participants.
 
 
 ### Team management
+kind of scuffed because all captains/members are just ids or subdocs with ids. will change when i get to making the player model
 
 * `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. Can only be done in the registrations phase.
 
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
 
-* `/team-invite [@user]` - Send/cancel an invite for your team to a free agent.
+* `/team-info [tag]` - wip
+
+* `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite. Can only be done in the registrations phase.
+// TO DO: in /profile ONLY the user needs to see which teams he got invited by
 
 
 ### Utility
-// TO DO: add a cooldown for non-ephemeral user commands
+TO DO: add a cooldown for non-ephemeral user commands
 * `/roll [max-value?]` - Roll a number between 0-100 (or to whatever number instead).

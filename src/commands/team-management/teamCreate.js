@@ -46,7 +46,16 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// TO DO: add checks for blacklisted roles (staff), both here and in team invites
+	for (let i = 0; i < event.blacklistedRoles.length; i++) {
+		if (interaction.member.roles.cache.has(event.blacklistedRoles[i].roleId)) {
+			await interaction.followUp({
+				embeds: [ErrorEmbed('You are blacklisted from participating in this event ' +
+					`because of the role <@&${event.blacklistedRoles[i].roleId}>.`,
+				)],
+			});
+			return;
+		}
+	}
 
 	const captainCheck = await TeamModel.findOne(
 		{ event: event._id, captain: interaction.user.id },
@@ -58,7 +67,7 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// TO DO: check this if its working when invites are done
+	// TO DO: check this when members are implemented
 	const memberCheck = await TeamModel.findOne(
 		{ event: event._id, 'members.member': interaction.user.id },
 	);
