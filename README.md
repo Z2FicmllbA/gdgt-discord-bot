@@ -48,7 +48,7 @@ kind of scuffed because all captains/members are just ids or subdocs with ids. w
 
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
 
-* `/team-info [tag]` - wip
+* `/team-info [tag]` - Show general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone and will return an ephemeral answer.
 
 * `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite. Can only be done in the registrations phase.
 // TO DO: in /profile ONLY the user needs to see which teams he got invited by
