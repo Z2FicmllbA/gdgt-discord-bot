@@ -6,6 +6,7 @@ import { ProfanityCheck } from '../../utility/profanityCheck.js';
 import { AlphanumericCheck } from '../../utility/alphanumericCheck.js';
 import { ErrorEmbed, SuccessEmbed } from '../../utility/followUpEmbed.js';
 import { TeamModel } from '../../models/teamModel.js';
+import { CreateUser } from '../../utility/userManager.js';
 
 export const data = new SlashCommandBuilder()
 	.setName('team-create')
@@ -67,9 +68,8 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// TO DO: check this when members are implemented
 	const memberCheck = await TeamModel.findOne(
-		{ event: event._id, 'members.member': interaction.user.id },
+		{ event: event._id, 'members.memberId': interaction.user.id },
 	);
 	if (memberCheck) {
 		await interaction.followUp({
@@ -128,11 +128,13 @@ async function teamCreate(interaction) {
 	const teamName = interaction.options.getString('name');
 	const teamTag = interaction.options.getString('tag').toUpperCase();
 
+	const captain = await CreateUser(interaction.user.id);
+
 	const team = new TeamModel({
 		name: teamName,
 		tag: teamTag,
 		event: event._id,
-		captain: interaction.user.id,
+		captain: captain._id,
 	});
 
 	await team.save();

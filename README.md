@@ -12,7 +12,7 @@ Discord server setup: move the bot role all the way up; under Server Settings/Ap
 4. Run `npm run start`
 
 ## Commands
-WIP; fields with the question mark (?) at the end are not required
+WIP, a lot of inconsistent terms & naming; fields with the question mark (?) at the end are not required
 
 some commands contain a dialog box to confirm the action
 
@@ -42,16 +42,21 @@ some commands contain a dialog box to confirm the action
 
 
 ### Team management
-kind of scuffed because all captains/members are just ids or subdocs with ids. will change when i get to making the player model
+These commands can only be done in the registrations phase of any respective event.
 
-* `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain. Can only be done in the registrations phase.
+// TO DO: listen for users leaving the guild & if they are the captain of a team in an active event make someone else the captain (sounds like a pain)
 
-* `/team-disband [name] [tag]` - Disband your team from the active event (only for captains). Can only be done in the registrations phase.
+* `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain.
 
-* `/team-info [tag]` - Show general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone and will return an ephemeral answer.
+* `/team-disband [name] [tag]` - Disband your team from the active event (only for captains).
 
-* `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite. Can only be done in the registrations phase.
+* `/team-info [tag]` - Show general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone at any time and will return an ephemeral answer.
+
+* `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite.
 // TO DO: in /profile ONLY the user needs to see which teams he got invited by
+
+* `/team-join [tag]` - Join a team you've been invited to.
+// TO DO: Joining the team voids all invites to this user for the respective event
 
 
 ### Utility

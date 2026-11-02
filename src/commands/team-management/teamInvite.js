@@ -36,7 +36,7 @@ export async function execute(interaction) {
 	}
 
 	const memberCheck = await TeamModel.findOne(
-		{ event: event._id, 'members.member': interaction.user.id },
+		{ event: event._id, 'members.memberId': interaction.user.id },
 	);
 	if (memberCheck) {
 		await interaction.followUp({
@@ -81,7 +81,6 @@ export async function execute(interaction) {
 		}
 	}
 
-	// TO DO: check this when members are implemented
 	for (let i = 0; i < team.members.length; i++) {
 		if (team.members[i].memberId === member.id) {
 			await interaction.followUp({
@@ -91,10 +90,23 @@ export async function execute(interaction) {
 		}
 	}
 
-	if (team.invites.length >= event.teamSizeMax) {
+	const invitedCaptainCheck = await TeamModel.findOne(
+		{ event: event._id, captain: member.id },
+	);
+	const invitedMemberCheck = await TeamModel.findOne(
+		{ event: event._id, 'members.memberId': member.id },
+	);
+	if (invitedCaptainCheck || invitedMemberCheck) {
+		await interaction.followUp({
+			embeds: [ErrorEmbed('You cannot invite this member as they are part of another team.')],
+		});
+		return;
+	}
+
+	if (team.invites.length >= event.teamSizeMax - 1) {
 		await interaction.followUp({
 			embeds: [ErrorEmbed('You cannot send more invites to your team. ' +
-				`(${team.invites.length}/${event.teamSizeMax})`,
+				`(${team.invites.length}/${event.teamSizeMax - 1})`,
 			)],
 		});
 		return;

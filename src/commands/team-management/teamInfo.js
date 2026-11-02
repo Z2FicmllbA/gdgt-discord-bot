@@ -52,6 +52,12 @@ export async function execute(interaction) {
 		});
 	}
 
+	// TO DO: think of something for the footer icon here & in event-info
+	embed.setFooter({
+		text: event.name,
+		iconURL: 'https://i.imgur.com/AfFp7pu.png',
+	});
+
 	await interaction.followUp({ embeds: [embed] });
 }
 

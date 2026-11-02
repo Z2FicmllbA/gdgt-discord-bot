@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { MessageFlags, SlashCommandBuilder } from 'discord.js';
 
 import { ConfirmationDialog, DialogType } from '../../handlers/confirmationDialog.js';
 import { LoadActiveEvent } from '../../utility/loadActiveEvent.js';
@@ -23,7 +23,7 @@ export const data = new SlashCommandBuilder()
 			.setRequired(true));
 
 export async function execute(interaction) {
-	await interaction.deferReply();
+	await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 	const event = await LoadActiveEvent(interaction.guild.id);
 	if (!event) {
@@ -45,9 +45,8 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// to do: check this when members are implemented
 	const memberCheck = await TeamModel.findOne(
-		{ event: event._id, 'members.member': interaction.user.id },
+		{ event: event._id, 'members.memberId': interaction.user.id },
 	);
 	if (memberCheck) {
 		await interaction.followUp({
