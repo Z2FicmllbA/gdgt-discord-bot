@@ -121,11 +121,11 @@ export async function execute(interaction) {
 	}
 	let embedMessage = `Invited <@${member.id}> to the team **${team.name}**.`;
 	if (alreadyInvitedCheck) {
-		team.invites.pull({ memberId: member.id });
+		await team.invites.pull({ memberId: member.id });
 		embedMessage = `Cancelled the invite to <@${member.id}>.`;
 	}
 	else {
-		team.invites.push({ memberId: member.id });
+		await team.invites.push({ memberId: member.id });
 	}
 
 	await team.save();

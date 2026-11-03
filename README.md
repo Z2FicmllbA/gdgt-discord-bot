@@ -58,6 +58,8 @@ These commands can only be done in the registrations phase of any respective eve
 * `/team-join [tag]` - Join a team you've been invited to.
 // TO DO: Joining the team voids all invites to this user for the respective event
 
+* `/team-leave` - Leave your current team (captains excluded).
+
 
 ### Utility
 TO DO: add a cooldown for non-ephemeral user commands

@@ -66,9 +66,7 @@ export async function execute(interaction) {
 			return;
 		}
 
-		event.blacklistedRoles.push({
-			roleId: role.id,
-		});
+		await event.blacklistedRoles.push({ roleId: role.id });
 		resultMessage = `Successfully blacklisted the role <@&${role.id}>.`;
 	}
 	else {
@@ -79,7 +77,7 @@ export async function execute(interaction) {
 			return;
 		}
 
-		event.blacklistedRoles.pull({ roleId: role.id });
+		await event.blacklistedRoles.pull({ roleId: role.id });
 		resultMessage = `Removed the role <@&${role.id}> from the blacklist.`;
 	}
 

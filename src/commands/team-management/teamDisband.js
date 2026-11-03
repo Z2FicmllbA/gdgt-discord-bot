@@ -60,7 +60,7 @@ export async function execute(interaction) {
 	);
 	if (!team) {
 		await interaction.followUp({
-			embeds: [ErrorEmbed(`You do not have any registered team for the event **${event.name}**.`)],
+			embeds: [ErrorEmbed(`You do not have any registered team to disband for the event **${event.name}**.`)],
 		});
 		return;
 	}

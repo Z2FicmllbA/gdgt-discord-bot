@@ -101,7 +101,7 @@ async function eventStage(interaction) {
 	}
 
 	// Add a new stage
-	event.stages.push({
+	await event.stages.push({
 		stageName: queryName,
 		stageOrder: queryOrder,
 	});

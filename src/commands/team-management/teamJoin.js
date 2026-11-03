@@ -109,9 +109,9 @@ async function teamJoin(interaction) {
 	const member = await CreateUser(interaction.user.id);
 
 	// TO DO: Joining the team voids all invites to this user for the respective event
-	team.invites.pull({ memberId: member._id });
+	await team.invites.pull({ memberId: member._id });
 
-	team.members.push({ memberId: member._id });
+	await team.members.push({ memberId: member._id });
 
 	await team.save();
 	return SuccessEmbed(`Successfully joined the team **${team.name}**.`);
