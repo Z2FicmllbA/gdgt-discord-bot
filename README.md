@@ -55,10 +55,11 @@ These commands can only be done in the registrations phase of any respective eve
 * `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite.
 // TO DO: in /profile ONLY the user needs to see which teams he got invited by
 
-* `/team-join [tag]` - Join a team you've been invited to.
-// TO DO: Joining the team voids all invites to this user for the respective event
+* `/team-join [tag]` - Join a team you've been invited to. Joining a team voids all current invites to this user for the respective event.
 
-* `/team-leave` - Leave your current team (captains excluded).
+* `/team-leave` - Leave your current team (only for members).
+
+* `/team-rename [new-name?] [new-tag?]` - Change your team name or team tag (only for captains). Note that even if both arguments are marked as not required, the user still has to provide at least one value.
 
 
 ### Utility
