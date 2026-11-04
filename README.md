@@ -1,6 +1,10 @@
 # gdgt-discord-bot
 WIP; Using Node.js v24.18.0
 
+Dev portal setup: in the OAuth2 tab under OAuth2 URL Generator enable: `applications.commands` and `bot`. For the bot permissions just tick off `Administrator`.
+
+Discord server setup: move the bot role all the way up; under Server Settings/Apps/Integrations manage the bot by making all channels unavailable and add the bot channel(s) as the only one(s) available; and don't forget to set the Server Member role ID in the .env file if you haven't already.
+
 ## Setup (temporary, will add Docker components and change this)
 1. Run `npm install` to get all needed packages
 2. Create or add the .env file in the source directory
@@ -8,11 +12,12 @@ WIP; Using Node.js v24.18.0
 4. Run `npm run start`
 
 ## Commands
-WIP; fields with the question mark (?) at the end are not required
+WIP, a lot of inconsistent terms & naming; fields with the question mark (?) at the end are not required
+
+some commands contain a dialog box to confirm the action
 
 ### Event management
-//TO DO: add a confirmation dialog
-* `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers. // TO DO: make a default participation role for the event
+* `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers.
 
 * `/event-delete [tag]` - Delete the event with the given tag.
 
@@ -31,4 +36,32 @@ WIP; fields with the question mark (?) at the end are not required
     - If the provided order is 0, delete the stage with the provided name
     - All other cases will update the stage with the provided name
 
+* `/event-blacklist-role [@role] [state]` - Mark a role on the server as blacklisted for the active event. User with blacklisted roles will not be able to create/join teams or receive any invites.
+
 * `/event-archive [tag] [state]` - Archive/unarchive an event. Archived events will be locked from any changes both by admins and participants.
+
+
+### Team management
+These commands can only be done in the registrations phase of any respective event.
+
+// TO DO: listen for users leaving the guild & if they are the captain of a team in an active event make someone else the captain (sounds like a pain)
+
+* `/team-create [name] [tag]` - Create a new team for the active event with yourself as the captain.
+
+* `/team-disband [name] [tag]` - Disband your team from the active event (only for captains).
+
+* `/team-info [tag]` - Show general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone at any time and will return an ephemeral answer.
+
+* `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite.
+// TO DO: in /profile ONLY the user needs to see which teams he got invited by
+
+* `/team-join [tag]` - Join a team you've been invited to. Joining a team voids all current invites to this user for the respective event.
+
+* `/team-leave` - Leave your current team (only for members).
+
+* `/team-rename [new-name?] [new-tag?]` - Change your team name or team tag (only for captains). Note that even if both arguments are marked as not required, the user still has to provide at least one value.
+
+
+### Utility
+TO DO: add a cooldown for non-ephemeral user commands
+* `/roll [max-value?]` - Roll a number between 0-100 (or to whatever number instead).
