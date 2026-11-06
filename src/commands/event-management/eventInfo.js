@@ -10,10 +10,6 @@ export const data = new SlashCommandBuilder()
 	.addStringOption(option =>
 		option.setName('tag')
 			.setDescription('The unique tag of the event.')
-			.setRequired(false))
-	.addBooleanOption(option =>
-		option.setName('show-stage-order')
-			.setDescription('Optional flag, mostly for debugging purposes.')
 			.setRequired(false));
 
 export async function execute(interaction) {
@@ -80,18 +76,9 @@ export async function execute(interaction) {
 	stages.sort((a, b) => a.stageOrder - b.stageOrder);
 
 	let stagesString = '';
-	const showStageOrder = interaction.options.getBoolean('show-stage-order');
-
-	if (!showStageOrder) {
-		stages.forEach(stage => {
-			stagesString += `- ${stage.stageName}\n`;
-		});
-	}
-	else {
-		stages.forEach(stage => {
-			stagesString += `- ${stage.stageName} (${stage.stageOrder})\n`;
-		});
-	}
+	stages.forEach(stage => {
+		stagesString += `${stage.stageOrder}. ${stage.stageName}\n`;
+	});
 
 	embed.addFields(
 		{ name: 'Stages', value: stagesString },

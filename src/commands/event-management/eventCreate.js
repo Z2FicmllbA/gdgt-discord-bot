@@ -74,6 +74,7 @@ async function eventCreate(interaction) {
 			stageName: eventDefaultStage,
 			stageOrder: 1,
 		}],
+		activeStage: 1,
 	});
 
 	await event.save();

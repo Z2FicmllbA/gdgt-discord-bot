@@ -11,6 +11,7 @@ const eventSchema = new Schema({
 		stageName: String,
 		stageOrder: Number,
 	}],
+	activeStage: Number,
 	teamSizeMin: {
 		type: Number,
 		default: 2,
