@@ -5,13 +5,22 @@ const eventSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	name: String,
-	roleId: String,
+	name: {
+		type: String,
+		required: true,
+	},
+	roleId: {
+		type: String,
+		required: true,
+	},
 	stages: [{
 		stageName: String,
 		stageOrder: Number,
 	}],
-	activeStage: Number,
+	activeStage: {
+		type: Number,
+		default: 1,
+	},
 	teamSizeMin: {
 		type: Number,
 		default: 2,

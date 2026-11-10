@@ -16,14 +16,15 @@ WIP, a lot of inconsistent terms & naming; fields with the question mark (?) at 
 
 some commands contain a dialog box to confirm the action
 
+### Guild management
+* `/guild-set-event [tag]` - Set the event as active/default for the current server. This means that all commands submitted by participants in the server will automatically be attached to this event.
+
 ### Event management
 * `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers.
 
 * `/event-delete [tag]` - Delete the event with the given tag.
 
 * `/event-info [tag?]` - Show general info about the active event. Additionally providing a tag will instead search for that event instead. This command is available to everyone and will return an ephemeral answer.
-
-* `/event-set-active [tag]` - Set the event as active/default for the current server. This means that all commands submitted by participants in the server will automatically be attached to this event.
 
 * `/event-team-size [min] [max]` - Change the team size values of the active event. The defaults when creating any event are `min: 2`, `max: 5`.
 
@@ -35,6 +36,8 @@ some commands contain a dialog box to confirm the action
     - If the provided name is unique, create a new stage
     - If the provided order is 0, delete the stage with the provided name
     - All other cases will update the stage with the provided name
+
+* `/event-set-active-stage [order]` - Set the given stage as active for its respective event, which will automatically be assigned to all submissions.
 
 * `/event-blacklist-role [@role] [state]` - Mark a role on the server as blacklisted for the active event. User with blacklisted roles will not be able to create/join teams or receive any invites.
 
@@ -60,6 +63,10 @@ These commands can only be done in the registrations phase of any respective eve
 * `/team-leave` - Leave your current team (only for members).
 
 * `/team-rename [new-name?] [new-tag?]` - Change your team name or team tag (only for captains). Note that even if both arguments are marked as not required, the user still has to provide at least one value.
+
+
+### Entry management
+* `/entry-submit [name] [id] [showcase-link]` - Submit your entry for the respective stage of the current active tournament. Run the command again to overwrite your submission.
 
 
 ### Utility
