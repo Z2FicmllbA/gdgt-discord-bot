@@ -83,7 +83,7 @@ export async function execute(interaction) {
 	}
 
 	const entryId = interaction.options.getString('id');
-	// check if id is integers only
+	// to do: check if id is integers only
 
 	const entryShowcaseLink = interaction.options.getString('showcase-link');
 	if (!URL.canParse(entryShowcaseLink)) {
@@ -162,7 +162,7 @@ async function entrySubmit(interaction) {
 	});
 
 	await submission.save();
-	return SuccessEmbed(`Successfully submitted your entry to the event **${event.name}**, stage: **${stageName}**.`);
+	return SuccessEmbed(`Successfully submitted your entry to the event **${event.name}: ${stageName}**.`);
 }
 
 async function entryOverwrite(interaction) {
@@ -197,5 +197,5 @@ async function entryOverwrite(interaction) {
 	existingEntry.submissionDate = new Date();
 
 	await existingEntry.save();
-	return SuccessEmbed(`Successfully submitted your entry to the event **${event.name}**, stage: **${stageName}**.`);
+	return SuccessEmbed(`Successfully overwritten your previously submitted entry to the event **${event.name}: ${stageName}**.`);
 }

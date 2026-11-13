@@ -24,7 +24,7 @@ some commands contain a dialog box to confirm the action
 
 * `/event-delete [tag]` - Delete the event with the given tag.
 
-* `/event-info [tag?]` - Show general info about the active event. Additionally providing a tag will instead search for that event instead. This command is available to everyone and will return an ephemeral answer.
+* `/event-info [tag?]` - View general info about the active event. Additionally providing a tag will instead search for that event instead. This command is available to everyone and will return an ephemeral answer.
 
 * `/event-team-size [min] [max]` - Change the team size values of the active event. The defaults when creating any event are `min: 2`, `max: 5`.
 
@@ -45,7 +45,7 @@ some commands contain a dialog box to confirm the action
 
 
 ### Team management
-These commands can only be done in the registrations phase of any respective event.
+These commands can only be done in the registration phase of any respective event.
 
 // TO DO: listen for users leaving the guild & if they are the captain of a team in an active event make someone else the captain (sounds like a pain)
 
@@ -53,7 +53,7 @@ These commands can only be done in the registrations phase of any respective eve
 
 * `/team-disband [name] [tag]` - Disband your team from the active event (only for captains).
 
-* `/team-info [tag]` - Show general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone at any time and will return an ephemeral answer.
+* `/team-info [tag]` - View general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone at any time and will return an ephemeral answer.
 
 * `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite.
 // TO DO: in /profile ONLY the user needs to see which teams he got invited by
@@ -66,7 +66,11 @@ These commands can only be done in the registrations phase of any respective eve
 
 
 ### Entry management
+These commands can only be done in the submission phase of any respective event.
+
 * `/entry-submit [name] [id] [showcase-link]` - Submit your entry for the respective stage of the current active tournament. Run the command again to overwrite your submission.
+
+* `/entry-info [team-tag] [event-tag?] [stage-order?]` - View general info about a specific entry. Providing only the required team tag will search for this team's entry in the active stage of the current event. Change the event tag or the stage order accordingly to see past entries from various  events.
 
 
 ### Utility
