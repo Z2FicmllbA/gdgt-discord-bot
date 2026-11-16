@@ -10,7 +10,8 @@ const userSchema = new Schema({
 		default: new Date(),
 	},
 	badges: [{
-		badge: String,
+		roleId: String,
+		badgeName: String,
 	}],
 });
 

@@ -44,8 +44,8 @@ export async function execute(interaction) {
 
 	if (user.badges.length > 0) {
 		let badgesString = '';
-		for (let i = 0; i < badges.length; i++) {
-			badgesString += `- ${badges[i].badge}`;
+		for (let i = 0; i < user.badges.length; i++) {
+			badgesString += `- <@&${user.badges[i].roleId}>`;
 		}
 		embed.addFields({ name: 'Badges', value: badgesString });
 	}
@@ -100,7 +100,7 @@ async function GetActiveEventField(interaction, event, user) {
 		);
 		if (invites.length != 0) {
 			isParticipating = true;
-			field.value = 'You are invited to join the teams:\n';
+			field.value = 'You are invited to join the team(s):\n';
 			for (let i = 0; i < invites.length; i++) {
 				field.value += `[${invites[i].tag}] `;
 			}

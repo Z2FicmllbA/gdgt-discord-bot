@@ -5,7 +5,7 @@ import { WhitelistCheck } from '../../utility/whitelistCheck.js';
 import { AlphanumericCheck } from '../../utility/alphanumericCheck.js';
 import { EventModel } from '../../models/eventModel.js';
 import { ErrorEmbed, SuccessEmbed } from '../../utility/followUpEmbed.js';
-import { CreateParticipantRole } from '../../utility/participantRoleManager.js';
+import { CreateParticipantRole } from '../../utility/roleManager.js';
 
 export const data = new SlashCommandBuilder()
 	.setName('event-create')
