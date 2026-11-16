@@ -56,6 +56,9 @@ export async function execute(interaction) {
 		if (field) { embed.addFields(field); }
 	}
 
+	// TO DO: add latest entry
+	// TO DO: add total submissions
+
 	await interaction.followUp({ embeds: [embed] });
 }
 

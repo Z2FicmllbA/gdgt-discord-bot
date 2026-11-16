@@ -59,7 +59,6 @@ These commands can only be done in the registration phase of any respective even
 * `/team-info [tag]` - View general info about a specific team. Captains, when checking their own team, can also see the sent invites. This command is available to everyone at any time and will return an ephemeral answer.
 
 * `/team-invite [@member]` - Send an invite for your team to a free agent. Run the command again to cancel the invite.
-// TO DO: in /profile ONLY the user needs to see which teams he got invited by
 
 * `/team-join [tag]` - Join a team you've been invited to. Joining a team voids all current invites to this user for the respective event.
 
@@ -77,3 +76,5 @@ These commands can only be done in the registration phase of any respective even
 ### Utility
 TO DO: add a cooldown for non-ephemeral user commands
 * `/roll [max-value?]` - Roll a number between 0-100 (or to whatever number instead).
+
+* `/profile [@user]` - View general tournament activity of the given user. If there is an active event additional information will be shown: whether the user is a captain, belongs to a team, or (if the user searches for themselves) all received invites from teams.

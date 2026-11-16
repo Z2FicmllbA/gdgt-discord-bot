@@ -6,7 +6,7 @@ const userSchema = new Schema({
 		required: true,
 	},
 	joinedOn: {
-		type: Date,
+		type: Schema.Types.Date,
 		default: new Date(),
 	},
 	badges: [{

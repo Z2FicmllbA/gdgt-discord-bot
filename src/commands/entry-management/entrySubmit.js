@@ -83,7 +83,7 @@ export async function execute(interaction) {
 	}
 
 	const entryId = interaction.options.getString('id');
-	// to do: check if id is integers only
+	// TO DO: check if id is integers only
 
 	const entryShowcaseLink = interaction.options.getString('showcase-link');
 	if (!URL.canParse(entryShowcaseLink)) {
