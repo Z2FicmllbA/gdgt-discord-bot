@@ -7,7 +7,7 @@ import { EventModel } from '../../models/eventModel.js';
 import { ErrorEmbed, SuccessEmbed } from '../../utility/followUpEmbed.js';
 
 export const data = new SlashCommandBuilder()
-	.setName('event-set-active')
+	.setName('guild-set-event')
 	.setDescription('Set the event as active/default for this server. All commands will automatically use this event.')
 	.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 	.addStringOption(option =>
@@ -46,11 +46,11 @@ export async function execute(interaction) {
 		header: 'Confirmation',
 		content: `Set the event **${event.name}** as the default/active for this guild?`,
 		ttl: 60_000,
-		callback: eventSetActive,
+		callback: guildSetEvent,
 	});
 }
 
-async function eventSetActive(interaction) {
+async function guildSetEvent(interaction) {
 	const eventId = interaction.options.getString('tag').toUpperCase();
 	const event = await EventModel.findById(eventId);
 

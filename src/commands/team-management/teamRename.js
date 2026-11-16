@@ -41,7 +41,7 @@ export async function execute(interaction) {
 	}
 	if (!event.registrationsState) {
 		await interaction.followUp({
-			embeds: [ErrorEmbed(`The registrations phase for the event **${event.name}** is not active.`)],
+			embeds: [ErrorEmbed(`The registration phase for the event **${event.name}** is not active.`)],
 		});
 		return;
 	}

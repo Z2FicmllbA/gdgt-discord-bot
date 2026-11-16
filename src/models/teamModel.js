@@ -1,10 +1,22 @@
 import { Schema, model } from 'mongoose';
 
 const teamSchema = new Schema({
-	name: String,
-	tag: String,
-	event: String,
-	captain: String,
+	name: {
+		type: String,
+		required: true,
+	},
+	tag: {
+		type: String,
+		required: true,
+	},
+	event: {
+		type: String,
+		required: true,
+	},
+	captain: {
+		type: String,
+		required: true,
+	},
 	members: [{
 		memberId: String,
 	}],

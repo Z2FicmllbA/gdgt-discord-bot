@@ -5,8 +5,13 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	joinedOn: {
+		type: Schema.Types.Date,
+		default: new Date(),
+	},
 	badges: [{
-		badge: String,
+		roleId: String,
+		badgeName: String,
 	}],
 });
 

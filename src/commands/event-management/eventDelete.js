@@ -5,7 +5,7 @@ import { WhitelistCheck } from '../../utility/whitelistCheck.js';
 import { EventModel } from '../../models/eventModel.js';
 import { GuildConfigModel } from '../../models/guildConfigModel.js';
 import { ErrorEmbed, SuccessEmbed } from '../../utility/followUpEmbed.js';
-import { DeleteParticipantRole } from '../../utility/participantRoleManager.js';
+import { DeleteRole } from '../../utility/roleManager.js';
 
 export const data = new SlashCommandBuilder()
 	.setName('event-delete')
@@ -56,7 +56,7 @@ async function eventDelete(interaction) {
 	const event = await EventModel.findById(eventId);
 
 	await event.deleteOne();
-	await DeleteParticipantRole(interaction, event.roleId);
+	await DeleteRole(interaction, event.roleId);
 	await GuildConfigModel.findOneAndUpdate(
 		{ activeEvent: eventId },
 		{ activeEvent: null },
