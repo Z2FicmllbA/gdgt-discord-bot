@@ -12,12 +12,15 @@ Discord server setup: move the bot role all the way up; under Server Settings/Ap
 4. Run `npm run start`
 
 ## Commands
-WIP, a lot of inconsistent terms & naming; fields with the question mark (?) at the end are not required
+Slash commands for tournament management, both for admins & participants. Fields marked with a question mark mean that the command does not necessarily require this value. Some commands prompt the user with a dialog box, needing a confirmation to run the action.
 
-some commands contain a dialog box to confirm the action
+// endgame refactor TO DO: fix a lot of inconsistent terms & naming
+
 
 ### Guild management
 * `/guild-set-event [tag]` - Set the event as active/default for the current server. This means that all commands submitted by participants in the server will automatically be attached to this event.
+
+// TO DO: guild info with a list of all events sorted by recent, limit 10 but future versions can include action row buttons that allows cycling between pages, currently not needed since we only have 3 finished tournaments
 
 ### Event management
 * `/event-create [name] [tag] [default-stage?]` - Create an event with a unique alphanumerical tag. The first stage is set by default to Qualifiers.
@@ -66,9 +69,7 @@ These commands can only be done in the registration phase of any respective even
 
 
 ### Entry management
-These commands can only be done in the submission phase of any respective event.
-
-* `/entry-submit [name] [id] [showcase-link]` - Submit your entry for the respective stage of the current active tournament. Run the command again to overwrite your submission.
+* `/entry-submit [name] [id] [showcase-link]` - Submit your entry for the respective stage of the current active tournament. Run the command again to overwrite your submission. This command can only be done in the submission phase of any respective event.
 
 * `/entry-info [team-tag] [event-tag?] [stage-order?]` - View general info about a specific entry. Providing only the required team tag will search for this team's entry in the active stage of the current event. Change the event tag or the stage order accordingly to see past entries from various  events.
 

@@ -162,7 +162,10 @@ async function entrySubmit(interaction) {
 	});
 
 	await submission.save();
-	return SuccessEmbed(`Successfully submitted your entry to the event **${event.name}: ${stageName}**.`);
+	return SuccessEmbed(
+		`Successfully submitted your entry to the event **${event.name}: ${stageName}**.\n` +
+		`Use \`/entry-info [${team.tag}]\` to view your current submission.`,
+	);
 }
 
 async function entryOverwrite(interaction) {
@@ -197,5 +200,8 @@ async function entryOverwrite(interaction) {
 	existingEntry.submissionDate = new Date();
 
 	await existingEntry.save();
-	return SuccessEmbed(`Successfully overwritten your previously submitted entry to the event **${event.name}: ${stageName}**.`);
+	return SuccessEmbed(
+		`Successfully submitted your entry to the event **${event.name}: ${stageName}**.\n` +
+		`Use \`/entry-info [${team.tag}]\` to view your current submission.`,
+	);
 }

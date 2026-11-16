@@ -5,6 +5,10 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	joinedOn: {
+		type: Date,
+		default: new Date(),
+	},
 	badges: [{
 		badge: String,
 	}],
